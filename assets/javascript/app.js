@@ -5,7 +5,7 @@ $(document).ready(function(){
 function displayWeatherInfo() {
     var city = $("#cityName").val();
     var apiKey = "b1ea2298caabef8f64aebd0a4fb8bfab"
-    var city = "Boston"
+    var city = ("#cityName").val();
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&APPID="+apiKey+"&units=imperial&cnt=5"
 
     $.ajax({
