@@ -71,17 +71,18 @@
         <div class="row">
             <div class="col s3 offset-s9">
 
-                <div class="card large" id="weatherCard">
+                <div class="card large z-depth-5" id="weatherCard">
                     <div class="card-image">
                         <img src="./assets/images/weatherPic.png" alt="">
                     </div>
                     <div>
                         <form>
-                            <input type="text" id="cityName">
-                            <label for="city">Enter Zip Code</label>
-                            <input id="addCity" type="submit" value="Submit">
+                            <input type="text" id="cityName" class="center">
+                            <label for="city" class="black-text large center">Enter Zip Code</label>
+                            <input id="addCity" type="submit" value="Submit" class="btn small">
                         </form>
                     </div>
+                    
                     <div class="card-content" id="weatherArea"></div>
                     <div class="card-content" id="dayofweek"></div>
                 </div>
