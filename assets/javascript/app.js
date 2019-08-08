@@ -26,7 +26,6 @@ var signUpBtn = document.getElementById("signUpBtn")
 
 $("div.showRest").hide()
 
-
 signOutBtn.addEventListener('click', e => {
     firebase.auth().signOut();
 })
@@ -36,13 +35,9 @@ btnLogin.addEventListener('click', e => {
     const pass = $("#signInPass").val();
     console.log(email)
     const auth = firebase.auth();
-    
     const promise = auth.signInWithEmailAndPassword(email, pass);
     
     console.log("Logged in")
-    
-
-
 })
 
 
@@ -52,13 +47,10 @@ btnSignUp.addEventListener('click', e => {
     const pass = $("#signUpPass").val();
     console.log(email)
     const auth = firebase.auth();
-    
     const promise = auth.createUserWithEmailAndPassword(email, pass);
     console.log("Logged in")
-    
-
-
 })
+
 firebase.auth().onAuthStateChanged(firebaseUser => {
     if(firebaseUser) {
         console.log(firebaseUser.email);
@@ -69,9 +61,6 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
         newDiv.html(firebaseUser.email)
         newDiv.attr("id", "navEmail")
         $("#nav-mobile").prepend(newDiv)
-        
-
-        
     }
     else {
         console.log("Not Logged In");
@@ -79,9 +68,6 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
         signUpBtn.style.display = "inline-block"
         signOutBtn.style.display = "none"
         $("#navEmail").empty();
-       
-        
-        
     }
 })
 
