@@ -6,3 +6,12 @@
     position: absolute;
     left: 2%;
 }
+#weatherArea {
+    float: right;
+}
+#dayofweek {
+    float: left;
+}
+body {
+    background-color: rgb(247, 242, 235);
+}
