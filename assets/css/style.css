@@ -6,3 +6,26 @@
     position: absolute;
     left: 2%;
 }
+
+.news-table {
+    display: flex;
+    flex-flow: column wrap;
+    margin: auto;
+}
+
+.news-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(0, 143, 144);
+}
+
+.news-published-at {
+    font-size: 12px;
+    font-style: italic;
+    margin-top: -10px;
+}
+
+.news-row {
+    text-align: center;
+    padding: -10px;
+}
