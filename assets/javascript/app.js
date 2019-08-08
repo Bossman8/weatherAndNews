@@ -86,7 +86,7 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
 var modal1 = $("#modal1")
 
 
-console.log("hello")
+
         
 
 
