@@ -99,6 +99,7 @@ function displayWeatherInfo() {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
+        // console.log(response)
         $(".card-content").empty();
 
         for (i = 0; i < 5; i++) {
