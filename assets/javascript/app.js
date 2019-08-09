@@ -18,7 +18,7 @@ $(document).ready(function () {
 
 var signInPass = $("#signInPass").attr("value")
 const btnLogin = document.getElementById("signInNow");
-const btnSignUp =document.getElementById("signUpNow");
+const btnSignUp = document.getElementById("signUpNow");
 
 var signInBtn = document.getElementById("signInBtn")
 var signOutBtn = document.getElementById("signOutBtn")
@@ -36,7 +36,7 @@ btnLogin.addEventListener('click', e => {
     console.log(email)
     const auth = firebase.auth();
     const promise = auth.signInWithEmailAndPassword(email, pass);
-    
+
     console.log("Logged in")
 })
 
@@ -52,7 +52,7 @@ btnSignUp.addEventListener('click', e => {
 })
 
 firebase.auth().onAuthStateChanged(firebaseUser => {
-    if(firebaseUser) {
+    if (firebaseUser) {
         console.log(firebaseUser.email);
         signInBtn.style.display = "none"
         signUpBtn.style.display = "none"
@@ -82,13 +82,47 @@ function displayWeatherInfo() {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(response.DailyForecasts)
+        $(".card-content").empty();
 
-        var fiveDay = $("<div>");
-        var weather = ("<p>" + response.DailyForecasts[0].EpochDate + "</p>")
-        console.log(weather)
+        for (i = 0; i < 5; i++) {
+            var tempDiv = $("<p>")
+            var fiveDay = $("<p>");
+            var epochdate = (response.DailyForecasts[i].EpochDate)
+            var tempHigh = (response.DailyForecasts[i].Temperature.Maximum.Value)
+            var tempLow = (response.DailyForecasts[i].Temperature.Minimum.Value)
+            tempDiv.html(tempHigh + " / " + tempLow)
+            var day = ((epochdate / 86400) + 4) % 7
+            var days = Math.floor(day)
+            console.log(days)
+            if (days === 4) {
+                days = "Thursday"
+            }else if (days === 5){
+                days = "Friday"
+            }else if (days === 6){
+                days = "Saturday"
+            }else if (days === 0){
+                days = "Sunday"
+            }else if (days === 1){
+                days = "Monday"
+            }else if (days === 2){
+                days = "Tuesday"
+            }else if (days === 3){
+                days = "Wednesday"
+            }
+            
+            fiveDay.html(days)
+            $("#weatherArea").append(tempDiv)
+            $("#dayofweek").append(fiveDay)
+            days = 0
+            
 
+        }
         
+        $("#weatherArea").prepend("H / L", "<hr>")
+        $("#dayofweek").prepend("Day","<hr>")
+
+
+
     })
 };
 $(document).on("click", "#addCity", displayWeatherInfo);

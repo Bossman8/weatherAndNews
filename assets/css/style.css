@@ -1,11 +1,26 @@
 #weatherCard {
     position: absolute;
     right: 5px;
+    background-image: url(../images/weatherBackground.png);
+    background-size: 110%;
+    background-position-x: 50%;
 }
 #news {
     position: absolute;
     left: 2%;
 }
+#weatherArea {
+    float: right;
+    line-height: 1.5;
+    
+}
+#dayofweek {
+    float: left;
+}
+body {
+    background-color: rgb(247, 242, 235);
+}
+
 
 .news-table {
     display: flex;
