@@ -35,20 +35,9 @@ btnLogin.addEventListener('click', e => {
     const pass = $("#signInPass").val();
     console.log(email)
     const auth = firebase.auth();
-<<<<<<< HEAD
-
-
-
-
     const promise = auth.signInWithEmailAndPassword(email, pass);
 
     console.log("Logged in")
-
-=======
-    const promise = auth.signInWithEmailAndPassword(email, pass);
-
-    console.log("Logged in")
->>>>>>> development-boston
 })
 
 
@@ -58,20 +47,8 @@ btnSignUp.addEventListener('click', e => {
     const pass = $("#signUpPass").val();
     console.log(email)
     const auth = firebase.auth();
-<<<<<<< HEAD
-
-
     const promise = auth.createUserWithEmailAndPassword(email, pass);
     console.log("Logged in")
-
-
-
-
-
-=======
-    const promise = auth.createUserWithEmailAndPassword(email, pass);
-    console.log("Logged in")
->>>>>>> development-boston
 })
 
 firebase.auth().onAuthStateChanged(firebaseUser => {
