@@ -35,6 +35,7 @@ btnLogin.addEventListener('click', e => {
     const pass = $("#signInPass").val();
     console.log(email)
     const auth = firebase.auth();
+<<<<<<< HEAD
 
 
 
@@ -43,6 +44,11 @@ btnLogin.addEventListener('click', e => {
 
     console.log("Logged in")
 
+=======
+    const promise = auth.signInWithEmailAndPassword(email, pass);
+
+    console.log("Logged in")
+>>>>>>> development-boston
 })
 
 
@@ -52,6 +58,7 @@ btnSignUp.addEventListener('click', e => {
     const pass = $("#signUpPass").val();
     console.log(email)
     const auth = firebase.auth();
+<<<<<<< HEAD
 
 
     const promise = auth.createUserWithEmailAndPassword(email, pass);
@@ -61,6 +68,10 @@ btnSignUp.addEventListener('click', e => {
 
 
 
+=======
+    const promise = auth.createUserWithEmailAndPassword(email, pass);
+    console.log("Logged in")
+>>>>>>> development-boston
 })
 
 firebase.auth().onAuthStateChanged(firebaseUser => {
@@ -94,6 +105,7 @@ function displayWeatherInfo() {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
+        // console.log(response)
         $(".card-content").empty();
 
         for (i = 0; i < 5; i++) {
