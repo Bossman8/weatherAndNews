@@ -15,7 +15,7 @@ $(document).ready(function () {
 });
 
 
-
+var cityKey = "";
 var signInPass = $("#signInPass").attr("value")
 const btnLogin = document.getElementById("signInNow");
 const btnSignUp = document.getElementById("signUpNow");
@@ -73,10 +73,28 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
 
 var modal1 = $("#modal1")
 
-function displayWeatherInfo() {
+function findCity() {
+    
     var apiKey = "b1ea2298caabef8f64aebd0a4fb8bfab"
     var zip = $("#cityName").val();
-    var queryURL = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/" + zip + "?apikey=DrAxvb70qpJHcWljiu1szFIHWqsGBF7P"
+    var queryURL = "http://dataservice.accuweather.com/locations/v1/cities/search?apikey=DrAxvb70qpJHcWljiu1szFIHWqsGBF7P&q=" + zip 
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (city) {
+        console.log(city)
+        cityKey = city[0].Key
+        console.log(cityKey)
+        displayWeatherInfo();
+    })
+    
+}
+
+function displayWeatherInfo() {
+    var apiKey = "b1ea2298caabef8f64aebd0a4fb8bfab"
+    
+    var queryURL = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/" + cityKey + "?apikey=DrAxvb70qpJHcWljiu1szFIHWqsGBF7P"
 
     $.ajax({
         url: queryURL,
@@ -97,36 +115,36 @@ function displayWeatherInfo() {
             console.log(days)
             if (days === 4) {
                 days = "Thursday"
-            }else if (days === 5){
+            } else if (days === 5) {
                 days = "Friday"
-            }else if (days === 6){
+            } else if (days === 6) {
                 days = "Saturday"
-            }else if (days === 0){
+            } else if (days === 0) {
                 days = "Sunday"
-            }else if (days === 1){
+            } else if (days === 1) {
                 days = "Monday"
-            }else if (days === 2){
+            } else if (days === 2) {
                 days = "Tuesday"
-            }else if (days === 3){
+            } else if (days === 3) {
                 days = "Wednesday"
             }
-            
+
             fiveDay.html(days)
             $("#weatherArea").append(tempDiv)
             $("#dayofweek").append(fiveDay)
             days = 0
-            
+
 
         }
-        
+
         $("#weatherArea").prepend("H / L", "<hr>")
-        $("#dayofweek").prepend("Day","<hr>")
+        $("#dayofweek").prepend("Day", "<hr>")
 
 
 
     })
 };
-$(document).on("click", "#addCity", displayWeatherInfo);
+$(document).on("click", "#addCity", findCity);
 
 $(document).on("click", "#getNews", displayNews);
 $(document).on("click", "#showRest", buttonSwitch);
@@ -135,38 +153,38 @@ $(document).on("click", "#showRest", buttonSwitch);
 function displayNews() {
     var apiKey = "96b0859adb5e4b5ba3524e2d2e8571af";
     var url = "https://newsapi.org/v2/top-headlines?" +
-          'country=us&apiKey=' +
-          apiKey;
+        'country=us&apiKey=' +
+        apiKey;
     $.ajax({
         url: url,
         method: "GET"
-        }).then(function (res) {
+    }).then(function (res) {
         console.log(res.articles)
         $("div.moreNews").hide();
         var firstFive = res.articles.slice(0, 5);
-        var rest = res.articles.slice(5, res.articles.length -1);
+        var rest = res.articles.slice(5, res.articles.length - 1);
         $(document).ready(function () {
             var html = "<table border='1|1'>";
             for (var i = 0; i < firstFive.length; i++) {
-                html+="<tr class='news-table'>";
-                    html+="<td class='news-title news-row'>"+res.articles[i].title+"</td>";
-                    html+="<td class='news-published-at news-row'>"+res.articles[i].publishedAt+"</td>";
-                    html+="<td class='news-description news-row'>"+res.articles[i].description+"</td>";
-                html+="</tr>";
+                html += "<tr class='news-table'>";
+                html += "<td class='news-title news-row'>" + res.articles[i].title + "</td>";
+                html += "<td class='news-published-at news-row'>" + res.articles[i].publishedAt + "</td>";
+                html += "<td class='news-description news-row'>" + res.articles[i].description + "</td>";
+                html += "</tr>";
             }
-            html+="</table>";
-            html+="<button class='btn' type='submit' id='showRest'>Show More</button>";
+            html += "</table>";
+            html += "<button class='btn' type='submit' id='showRest'>Show More</button>";
             $("div.newsContent").html(html);
 
             var html2 = "<table border='1|1'>";
             for (var i = 0; i < rest.length; i++) {
-                html2+="<tr class='news-table'>";
-                    html2+="<td class='news-title news-row'>"+res.articles[i].title+"</td>";
-                    html2+="<td class='news-published-at news-row'>"+res.articles[i].publishedAt+"</td>";
-                    html2+="<td class='news-description news-row'>"+res.articles[i].description+"</td>";
-                html2+="</tr>";
+                html2 += "<tr class='news-table'>";
+                html2 += "<td class='news-title news-row'>" + res.articles[i].title + "</td>";
+                html2 += "<td class='news-published-at news-row'>" + res.articles[i].publishedAt + "</td>";
+                html2 += "<td class='news-description news-row'>" + res.articles[i].description + "</td>";
+                html2 += "</tr>";
             }
-            html2+="</table>";
+            html2 += "</table>";
             $("div.moreNews").html(html2);
         });
     })
