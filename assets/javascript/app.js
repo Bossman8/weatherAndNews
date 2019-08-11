@@ -77,7 +77,7 @@ function findCity() {
     
     var apiKey = "b1ea2298caabef8f64aebd0a4fb8bfab"
     var zip = $("#cityName").val();
-    var queryURL = "http://dataservice.accuweather.com/locations/v1/cities/search?apikey=DrAxvb70qpJHcWljiu1szFIHWqsGBF7P&q=" + zip 
+    var queryURL = "https://dataservice.accuweather.com/locations/v1/cities/search?apikey=DrAxvb70qpJHcWljiu1szFIHWqsGBF7P&q=" + zip 
 
     $.ajax({
         url: queryURL,
@@ -94,7 +94,7 @@ function findCity() {
 function displayWeatherInfo() {
     var apiKey = "b1ea2298caabef8f64aebd0a4fb8bfab"
     
-    var queryURL = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/" + cityKey + "?apikey=DrAxvb70qpJHcWljiu1szFIHWqsGBF7P"
+    var queryURL = "https://dataservice.accuweather.com/forecasts/v1/daily/5day/" + cityKey + "?apikey=DrAxvb70qpJHcWljiu1szFIHWqsGBF7P"
 
     $.ajax({
         url: queryURL,
