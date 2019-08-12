@@ -22,89 +22,83 @@
             <a href="#" class="brand-logo center">Direct News</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="#modal1" id="signUpBtn" class="btn modal-trigger">Sign Up</a></li>
-                
+
                 <li><a href="#modal2" id="signInBtn" class="btn modal-trigger">Sign In</a></li>
-                
+
                 <li><a href="#" id="signOutBtn" class="btn">Sign Out</a></li>
 
             </ul>
         </div>
     </nav>
+    <p class="noResults"></p>
     <div class="container">
-        <!-- Modal Structure -->
-        <div id="modal1" class="modal">
-            <div class="modal-content black-text center">
-                <h4>Sign Up</h4>
+        <div class="logins">
+            <!-- Modal Structure -->
+            <div id="modal1" class="modal">
+                <div class="modal-content black-text center">
+                    <h4>Sign Up</h4>
 
-                <form>
-                    <input type="email" id="signUpEmail" class="validate center">
-                    <label for="cityName">Email</label>
+                    <form>
+                        <input type="email" id="signUpEmail" class="validate center">
+                        <label for="cityName">Email</label>
 
-                    <input type="password" id="signUpPass" class="center">
-                    <label for="cityName">Password</label>
-                </form>
+                        <input type="password" id="signUpPass" class="center">
+                        <label for="cityName">Password</label>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="btn modal-close waves-effect waves-green btn-flat" id="signUpNow">Sign
+                        Up</a>
+                </div>
             </div>
-            <div class="modal-footer">
-                <a href="#!" class="btn modal-close waves-effect waves-green btn-flat" id="signUpNow">Sign
-                    Up</a>
-            </div>
-        </div>
-        <div id="modal2" class="modal">
-            <div class="modal-content black-text center">
-                <h4>Sign In</h4>
+            <div id="modal2" class="modal">
+                <div class="modal-content black-text center">
+                    <h4>Sign In</h4>
 
-                <form>
-                    <input type="email" id="signInEmail" class="validate center">
-                    <label for="cityName">Email</label>
+                    <form>
+                        <input type="email" id="signInEmail" class="validate center">
+                        <label for="cityName">Email</label>
 
-                    <input type="password" id="signInPass" class="center">
-                    <label for="cityName">Password</label>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a href="#!" class="btn modal-close waves-effect waves-green btn-flat" id="signInNow">Sign
-                    In</a>
-            </div>
-
-        </div>
-
-        <div class="row">
-            <div class="col s3 offset-s9">
-
-                <div class="card large z-depth-5" id="weatherCard">
-                    <div class="card-image">
-                        <img src="./assets/images/weatherPic.png" alt="">
-                    </div>
-                    <div>
-                        <form>
-                            <input type="text" id="cityName" class="center">
-                            <label for="city" class="black-text large center">Enter Zip Code</label>
-                            <input id="addCity" type="button" value="Submit" class="btn small">
-                        </form>
-                    </div>
-                    
-                    <div class="card-content" id="weatherArea"></div>
-                    <div class="card-content" id="dayofweek"></div>
+                        <input type="password" id="signInPass" class="center">
+                        <label for="cityName">Password</label>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="btn modal-close waves-effect waves-green btn-flat" id="signInNow">Sign
+                        In</a>
                 </div>
             </div>
         </div>
+        <div class="content">
+            <div class="row">
+                <div class="col s3 offset-s9">
 
+                    <div class="card large z-depth-5" id="weatherCard">
+                        <div class="card-image">
+                            <img src="./assets/images/weatherPic.png" alt="">
+                        </div>
+                        <div>
+                            <form>
+                                <input type="text" id="cityName" class="center">
+                                <label for="city" class="black-text large center">Enter Zip Code</label>
+                                <input id="addCity" type="button" value="Submit" class="btn small">
+                            </form>
+                        </div>
 
-
-    </div>
-    <div class="container" id="news">
-        <div class="newsArea">
-            <button class="btn" type="submit" id="getNews">Get News</button>
-            <div class="newsContent"></div>
-            <div class="moreNews" id="moreNews"></div>
+                        <div class="card-content" id="weatherArea"></div>
+                        <div class="card-content" id="dayofweek"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="container" id="news">
+                <div class="newsArea">
+                    <button class="btn" type="submit" id="getNews">Get News</button>
+                    <div class="newsContent"></div>
+                    <div class="moreNews" id="moreNews"></div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <footer>
-        <div class="footer-content">
-            Powered by AccuWeather & News API's
-        </div>
-    </footer>
 
     <!--JavaScript at end of body for optimized loading-->
     <script src="./assets/javascript/app.js"></script>

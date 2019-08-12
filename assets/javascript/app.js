@@ -23,11 +23,26 @@ const btnSignUp = document.getElementById("signUpNow");
 var signInBtn = document.getElementById("signInBtn")
 var signOutBtn = document.getElementById("signOutBtn")
 var signUpBtn = document.getElementById("signUpBtn")
-
+var content = document.getElementsByClassName("container");
+var isAuthenticated = false;
+$("div.content").hide()
 $("div.showRest").hide()
+authenticate();
+
+function authenticate () {
+    if (isAuthenticated == false) {
+        $("div.content").hide();
+        var html = "<p style='text-align:center;'>You must Sign Up/Log In to view content.</p>"
+            $(".noResults").html(html);
+    } else {
+        $("div.content").show();
+        $(".noResults").html("");
+    }
+}
 
 signOutBtn.addEventListener('click', e => {
     firebase.auth().signOut();
+    isAuthenticated = false;
 })
 
 btnLogin.addEventListener('click', e => {
@@ -36,7 +51,8 @@ btnLogin.addEventListener('click', e => {
     console.log(email)
     const auth = firebase.auth();
     const promise = auth.signInWithEmailAndPassword(email, pass);
-
+    isAuthenticated = true;
+    authenticate();
     console.log("Logged in")
 })
 
@@ -48,6 +64,8 @@ btnSignUp.addEventListener('click', e => {
     console.log(email)
     const auth = firebase.auth();
     const promise = auth.createUserWithEmailAndPassword(email, pass);
+    isAuthenticated = true;
+    authenticate();
     console.log("Logged in")
 })
 
@@ -61,6 +79,8 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
         newDiv.html(firebaseUser.email)
         newDiv.attr("id", "navEmail")
         $("#nav-mobile").prepend(newDiv)
+        isAuthenticated = true;
+        authenticate();
     }
     else {
         console.log("Not Logged In");
@@ -68,6 +88,8 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
         signUpBtn.style.display = "inline-block"
         signOutBtn.style.display = "none"
         $("#navEmail").empty();
+        isAuthenticated = false;
+        authenticate();
     }
 })
 
@@ -148,6 +170,7 @@ $(document).on("click", "#addCity", findCity);
 
 $(document).on("click", "#getNews", displayNews);
 $(document).on("click", "#showRest", buttonSwitch);
+$(document).on("click", "#showLess", buttonSwitch);
 
 
 function displayNews() {
@@ -185,13 +208,14 @@ function displayNews() {
                 html2 += "</tr>";
             }
             html2 += "</table>";
+            html2 += "<button class='btn' type='submit' id='showLess'>Show Less</button>";
             $("div.moreNews").html(html2);
         });
     })
 }
 
 function buttonSwitch() {
-    $("div.moreNews").show();
-    $("#showRest").hide();
+    $("div.moreNews").toggle();
+    $("#showRest").toggle();
 }
 

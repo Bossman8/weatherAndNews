@@ -1,3 +1,7 @@
+body {
+    background-color: rgb(247, 242, 235);
+}
+
 #weatherCard {
     position: absolute;
     right: 5px;
@@ -17,10 +21,6 @@
 #dayofweek {
     float: left;
 }
-body {
-    background-color: rgb(247, 242, 235);
-}
-
 
 .news-table {
     display: flex;
@@ -44,13 +44,3 @@ body {
     text-align: center;
     padding: -10px;
 }
-
-footer {
-    max-height: 2em;
-    position: bottom;
-    color: orange;
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> development-boston
