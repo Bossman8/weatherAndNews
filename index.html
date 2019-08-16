@@ -28,6 +28,7 @@
                 <li><a href="#" id="signOutBtn" class="btn">Sign Out</a></li>
 
             </ul>
+
         </div>
     </nav>
     <p class="noResults"></p>
@@ -80,7 +81,7 @@
                         <div>
                             <form>
                                 <input type="text" id="cityName" class="center">
-                                <label for="city" class="black-text large center">Enter Zip Code</label>
+                                <label for="city" class="black-text large center">Enter Zip/City</label>
                                 <input id="addCity" type="button" value="Submit" class="btn small">
                             </form>
                         </div>
@@ -97,8 +98,16 @@
                     <div class="moreNews" id="moreNews"></div>
                 </div>
             </div>
+            <div class="fixed-action-btn" id="smallView">
+                <a href="#" class="btn-floating red btn-large"><i class="large material-icons">add</i></a>
+                <ul>
+                    <li><a href="#" class="btn-floating blue btn-large" id="smallWeather"><i class="large material-icons">cloud</i></a></li>
+                    <li><a href="#" class="btn-floating green btn-large" id="smallNews"><i class="large material-icons">new_releases</i></a></li>
+                </ul>
+            </div>
         </div>
     </div>
+    
 
     <!--JavaScript at end of body for optimized loading-->
     <script src="./assets/javascript/app.js"></script>

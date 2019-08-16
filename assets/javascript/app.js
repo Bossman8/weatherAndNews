@@ -12,9 +12,12 @@ firebase.initializeApp(firebaseConfig);
 $(document).ready(function () {
     $('.sidenav').sidenav();
     $('.modal').modal();
+    $('.fixed-action-btn').floatingActionButton();
 });
 
-
+var database = firebase.database()
+var ViewsNumber = 0;
+var uid = "";
 var cityKey = "";
 var signInPass = $("#signInPass").attr("value")
 const btnLogin = document.getElementById("signInNow");
@@ -29,11 +32,11 @@ $("div.content").hide()
 $("div.showRest").hide()
 authenticate();
 
-function authenticate () {
+function authenticate() {
     if (isAuthenticated == false) {
         $("div.content").hide();
-        var html = "<p style='text-align:center;'>You must Sign Up/Log In to view content.</p>"
-            $(".noResults").html(html);
+        var html = "<p style='text-align:center;'>You must Sign Up/Sign In to view content.</p>"
+        $(".noResults").html(html);
     } else {
         $("div.content").show();
         $(".noResults").html("");
@@ -69,8 +72,17 @@ btnSignUp.addEventListener('click', e => {
     console.log("Logged in")
 })
 
+database.ref().on("value", function (snapshot) {
+    console.log(snapshot.val())
+    if (snapshot.child("ViewsNumber").exists()) {
+        ViewsNumber = snapshot.val().ViewsNumber
+        console.log(ViewsNumber)
+    }
+})
+
 firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
+        uid = firebaseUser.G;
         console.log(firebaseUser.email);
         signInBtn.style.display = "none"
         signUpBtn.style.display = "none"
@@ -81,6 +93,14 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
         $("#nav-mobile").prepend(newDiv)
         isAuthenticated = true;
         authenticate();
+        ViewsNumber++;
+        console.log(ViewsNumber);
+        firebase.database().ref("/Views").push({
+            uid
+        })
+        firebase.database().ref("ViewsNumber").set({
+            ViewsNumber: ViewsNumber
+        })
     }
     else {
         console.log("Not Logged In");
@@ -93,13 +113,23 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
     }
 })
 
+// database.ref().on("value", function (snapshot) {
+//     if (snapshot.child("ViewsNumber").exists()) {
+
+//         console.log("works")
+//         ViewsNumber = snapshot.val().ViewsNumber
+
+
+//     }
+// })
+
 var modal1 = $("#modal1")
 
 function findCity() {
-    
+
     var apiKey = "b1ea2298caabef8f64aebd0a4fb8bfab"
     var zip = $("#cityName").val();
-    var queryURL = "https://dataservice.accuweather.com/locations/v1/cities/search?apikey=DrAxvb70qpJHcWljiu1szFIHWqsGBF7P&q=" + zip 
+    var queryURL = "https://dataservice.accuweather.com/locations/v1/cities/search?apikey=DrAxvb70qpJHcWljiu1szFIHWqsGBF7P&q=" + zip
 
     $.ajax({
         url: queryURL,
@@ -110,12 +140,12 @@ function findCity() {
         console.log(cityKey)
         displayWeatherInfo();
     })
-    
+
 }
 
 function displayWeatherInfo() {
     var apiKey = "b1ea2298caabef8f64aebd0a4fb8bfab"
-    
+
     var queryURL = "https://dataservice.accuweather.com/forecasts/v1/daily/5day/" + cityKey + "?apikey=DrAxvb70qpJHcWljiu1szFIHWqsGBF7P"
 
     $.ajax({
@@ -219,3 +249,12 @@ function buttonSwitch() {
     $("#showRest").toggle();
 }
 
+$("#smallWeather").on("click", function () {
+    $("#news").hide();
+    $("#weatherCard").show();
+})
+$("#smallNews").on("click", function () {
+    $("#weatherCard").hide();
+    $("#news").show();
+    displayNews();
+})
