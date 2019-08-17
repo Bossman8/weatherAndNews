@@ -16,7 +16,7 @@ $(document).ready(function () {
 });
 
 var database = firebase.database()
-var ViewsNumber = 0;
+var ViewsNumber = database.ref('ViewsNumber/ViewsNumber'.valueOf());
 var uid = "";
 var cityKey = "";
 var signInPass = $("#signInPass").attr("value")
@@ -31,6 +31,14 @@ var isAuthenticated = false;
 $("div.content").hide()
 $("div.showRest").hide()
 authenticate();
+
+database.ref().on("value", function (snapshot) {
+    console.log(snapshot.val())
+    if (snapshot.child("ViewsNumber").exists()) {
+        ViewsNumber = snapshot.val().ViewsNumber
+        console.log(ViewsNumber)
+    }
+})
 
 function authenticate() {
     if (isAuthenticated == false) {
@@ -72,13 +80,7 @@ btnSignUp.addEventListener('click', e => {
     console.log("Logged in")
 })
 
-database.ref().on("value", function (snapshot) {
-    console.log(snapshot.val())
-    if (snapshot.child("ViewsNumber").exists()) {
-        ViewsNumber = snapshot.val().ViewsNumber
-        console.log(ViewsNumber)
-    }
-})
+
 
 firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
@@ -98,9 +100,7 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
         firebase.database().ref("/Views").push({
             uid
         })
-        firebase.database().ref("ViewsNumber").set({
-            ViewsNumber: ViewsNumber
-        })
+        
     }
     else {
         console.log("Not Logged In");
