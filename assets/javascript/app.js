@@ -215,26 +215,30 @@ function displayNews() {
         console.log(res.articles)
         $("div.moreNews").hide();
         var firstFive = res.articles.slice(0, 5);
-        var rest = res.articles.slice(5, res.articles.length - 1);
+        var rest = res.articles.slice(5, res.articles.length);
+        console.log(firstFive, rest)
         $(document).ready(function () {
-            var html = "<table border='1|1'>";
+            var html = "<table border='1|1' id='table-one'>";
             for (var i = 0; i < firstFive.length; i++) {
                 html += "<tr class='news-table'>";
-                html += "<td class='news-title news-row'>" + res.articles[i].title + "</td>";
-                html += "<td class='news-published-at news-row'>" + res.articles[i].publishedAt + "</td>";
-                html += "<td class='news-description news-row'>" + res.articles[i].description + "</td>";
+                html += "<td class='news-title news-row'>" + firstFive[i].title + "</td>";
+                html += "<td class='news-published-at news-row'><strong>" + firstFive[i].author + 
+                "</strong> - " + new Date(firstFive[i].publishedAt).toLocaleDateString() + 
+                "<a href='" + firstFive[i].url + "' target='_blank'> - Source: " + firstFive[i].source.name + "</a></td>";
+                html += "<td class='news-description news-row'>" + firstFive[i].description + "</td>";
+
                 html += "</tr>";
             }
             html += "</table>";
             html += "<button class='btn' type='submit' id='showRest'>Show More</button>";
             $("div.newsContent").html(html);
 
-            var html2 = "<table border='1|1'>";
+            var html2 = "<table border='1|1' id='table-two'>";
             for (var i = 0; i < rest.length; i++) {
                 html2 += "<tr class='news-table'>";
-                html2 += "<td class='news-title news-row'>" + res.articles[i].title + "</td>";
-                html2 += "<td class='news-published-at news-row'>" + res.articles[i].publishedAt + "</td>";
-                html2 += "<td class='news-description news-row'>" + res.articles[i].description + "</td>";
+                html2 += "<td class='news-title news-row'>" + rest[i].title + "</td>";
+                html2 += "<td class='news-published-at news-row'>" + rest[i].publishedAt + "</td>";
+                html2 += "<td class='news-description news-row'>" + rest[i].description + "</td>";
                 html2 += "</tr>";
             }
             html2 += "</table>";
