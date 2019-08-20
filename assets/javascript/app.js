@@ -30,9 +30,10 @@ var content = document.getElementsByClassName("container");
 var isAuthenticated = false;
 $("div.content").hide()
 $("div.showRest").hide()
-authenticate();
+authenticate(false);
 
-function authenticate() {
+function authenticate(isAuth = Boolean) {
+    isAuthenticated = isAuth;
     if (isAuthenticated == false) {
         $("div.content").hide();
         var html = "<p style='text-align:center;'>You must Sign Up/Sign In to view content.</p>"
@@ -43,47 +44,76 @@ function authenticate() {
     }
 }
 
+// signUpBtn.addEventListener('click', e => {
+//     $("#signUpForm").validate({
+//         rules: {
+//             signUpEmail: {
+//                 required: true,
+//                 email: true
+//             },
+//             signUpPass: {
+//                 required: true,
+//                 minlength: "6"
+//             },
+//             signUpPassConfirm: {
+//                 required: true,
+//                 minlength: "6",
+//                 equalTo: "#signUpPass"
+//             }
+//         },
+//         messages: {
+//             signUpEmail: {
+//                 required: "Please enter your email",
+//                 email: "Must be a valid email"
+//             },
+//             signUpPass: {
+//                 required: "Please enter a password",
+//                 minlength: "Your password must be at least 6 characters"
+//             },
+//             signUpPassConfirm: {
+//                 required: "Please enter a password",
+//                 minlength: "Your password must be at least 6 characters",
+//                 equalTo: "Passwords do not match"
+//             }
+//         }
+//     })
+// })
+
 signOutBtn.addEventListener('click', e => {
     firebase.auth().signOut();
-    isAuthenticated = false;
+    authenticate(false)
 })
 
 btnLogin.addEventListener('click', e => {
+    e.preventDefault();
     const email = $("#signInEmail").val();
     const pass = $("#signInPass").val();
-    console.log(email)
     const auth = firebase.auth();
     const promise = auth.signInWithEmailAndPassword(email, pass);
-    isAuthenticated = true;
-    authenticate();
+    authenticate(true);
     console.log("Logged in")
 })
 
-
-
 btnSignUp.addEventListener('click', e => {
+    e.preventDefault();
     const email = $("#signUpEmail").val();
     const pass = $("#signUpPass").val();
-    console.log(email)
     const auth = firebase.auth();
-    const promise = auth.createUserWithEmailAndPassword(email, pass);
-    isAuthenticated = true;
-    authenticate();
+    auth.createUserWithEmailAndPassword(email, pass);
+    authenticate(true);
     console.log("Logged in")
 })
 
 database.ref().on("value", function (snapshot) {
-    console.log(snapshot.val())
+    // console.log(snapshot.val())
     if (snapshot.child("ViewsNumber").exists()) {
         ViewsNumber = snapshot.val().ViewsNumber
-        console.log(ViewsNumber)
     }
 })
 
 firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
         uid = firebaseUser.G;
-        console.log(firebaseUser.email);
         signInBtn.style.display = "none"
         signUpBtn.style.display = "none"
         signOutBtn.style.display = "inline-block"
@@ -91,13 +121,12 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
         newDiv.html(firebaseUser.email)
         newDiv.attr("id", "navEmail")
         $("#nav-mobile").prepend(newDiv)
-        isAuthenticated = true;
-        authenticate();
+        authenticate(true);
         ViewsNumber++;
-        console.log(ViewsNumber);
         firebase.database().ref("/Views").push({
             uid
         })
+        console.log(ViewsNumber);
         firebase.database().ref("ViewsNumber").set({
             ViewsNumber: ViewsNumber
         })
@@ -108,8 +137,7 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
         signUpBtn.style.display = "inline-block"
         signOutBtn.style.display = "none"
         $("#navEmail").empty();
-        isAuthenticated = false;
-        authenticate();
+        authenticate(false);
     }
 })
 
@@ -135,9 +163,7 @@ function findCity() {
         url: queryURL,
         method: "GET"
     }).then(function (city) {
-        console.log(city)
         cityKey = city[0].Key
-        console.log(cityKey)
         displayWeatherInfo();
     })
 
@@ -152,7 +178,6 @@ function displayWeatherInfo() {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        // console.log(response)
         $(".card-content").empty();
 
         for (i = 0; i < 5; i++) {
@@ -164,7 +189,6 @@ function displayWeatherInfo() {
             tempDiv.html(tempHigh + " / " + tempLow)
             var day = ((epochdate / 86400) + 4) % 7
             var days = Math.floor(day)
-            console.log(days)
             if (days === 4) {
                 days = "Thursday"
             } else if (days === 5) {
@@ -212,11 +236,9 @@ function displayNews() {
         url: url,
         method: "GET"
     }).then(function (res) {
-        console.log(res.articles)
         $("div.moreNews").hide();
         var firstFive = res.articles.slice(0, 5);
         var rest = res.articles.slice(5, res.articles.length);
-        console.log(firstFive, rest)
         $(document).ready(function () {
             var html = "<table border='1|1' id='table-one'>";
             for (var i = 0; i < firstFive.length; i++) {
@@ -226,7 +248,7 @@ function displayNews() {
                 "</strong> - " + new Date(firstFive[i].publishedAt).toLocaleDateString() + 
                 "<a href='" + firstFive[i].url + "' target='_blank'> - Source: " + firstFive[i].source.name + "</a></td>";
                 html += "<td class='news-description news-row'>" + firstFive[i].description + "</td>";
-
+                // html += "<td><button class='btn' style='max-width:200px;' click='showFullArticle(" + firstFive[i] + ") type='submit' id='showFull'>Show Full Article</button></td>"
                 html += "</tr>";
             }
             html += "</table>";
@@ -237,7 +259,9 @@ function displayNews() {
             for (var i = 0; i < rest.length; i++) {
                 html2 += "<tr class='news-table'>";
                 html2 += "<td class='news-title news-row'>" + rest[i].title + "</td>";
-                html2 += "<td class='news-published-at news-row'>" + rest[i].publishedAt + "</td>";
+                html2 += "<td class='news-published-at news-row'><strong>" + rest[i].author + 
+                "</strong> - " + new Date(rest[i].publishedAt).toLocaleDateString() + 
+                "<a href='" + rest[i].url + "' target='_blank'> - Source: " + rest[i].source.name + "</a></td>";
                 html2 += "<td class='news-description news-row'>" + rest[i].description + "</td>";
                 html2 += "</tr>";
             }
@@ -251,6 +275,10 @@ function displayNews() {
 function buttonSwitch() {
     $("div.moreNews").toggle();
     $("#showRest").toggle();
+}
+
+function showFullArticle(article) {
+    $("#fullArticleTitle").text(article.title);
 }
 
 $("#smallWeather").on("click", function () {
